@@ -33,6 +33,7 @@
 #include "modules/omp.h"
 #include "modules/itertools.h"
 #include "modules/bisect.h"
+#include "modules/operator.h"
 
 /* extensions */
 #include "core/parallel.h"
