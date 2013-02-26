@@ -28,11 +28,27 @@ class ConstantFolding(Transformation):
 
     MAX_LEN = 2 ** 16
 
-    INIT_CODE = '''
-__list__ = list
-__dict__ = dict
-__set__ = set
-'''
+    class Prepare(ast.NodeTransformer):
+
+        def visit_Module(self, node):
+            new_node = self.generic_visit(node)
+            for name in ('list', 'dict', 'set',):
+                new_node.body.insert(0,
+                        ast.Assign(
+                            [ast.Name('__{0}__'.format(name), ast.Store())],
+                            ast.Name(name, ast.Load())
+                            )
+                        )
+            return new_node
+
+        def visit_Import(self, node):
+            new_node = self.generic_visit(node)
+            for alias in list(new_node.names):
+                if alias.name == 'operator_':
+                    alias.name = 'operator'
+                    alias.asname = 'operator_'
+            return new_node
+
 
     class ConversionError(Exception):
         pass
@@ -41,21 +57,19 @@ __set__ = set
         Transformation.__init__(self, ConstantExpressions)
 
     def run_visit(self, node):
+        from copy import deepcopy
         self.env = dict()
+        fake_node = ConstantFolding.Prepare().visit(deepcopy(node))
+        ast.fix_missing_locations(fake_node)
         try:
-            eval(
-                    compile(
-                        ast.parse(ConstantFolding.INIT_CODE),
-                        '<constant_folding>',
-                        'exec'),
-                    self.env)
-            eval(compile(node, '<constant_folding>', 'exec'), self.env)
+            eval(compile(fake_node, '<constant_folding>', 'exec'), self.env)
         except Exception as e:
-            print ast.dump(node)
+            print ast.dump(fake_node)
             print 'error in constant folding: ', e
             pass
         for module_name in modules:
             if not module_name.startswith('__'):
+		if module_name == "operator_" : module_name = "operator" #to import the python module operator instead of trying to import the module operator_ that does not exist
                 self.env[module_name] = __import__(module_name)
         self.visit(node)
 
