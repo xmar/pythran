@@ -40,7 +40,7 @@ class ConstantFolding(Transformation):
 	try:
 	    eval(compile(node, '<constant_folding>', 'exec'), self.env)
         except Exception as e:
-            print ast.dump(node)
+            print ast.dump(fake_node)
             print 'error in constant folding: ', e
             pass
         for module_name in modules:

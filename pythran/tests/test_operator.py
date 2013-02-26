@@ -53,6 +53,9 @@ class TestOperator(TestEnv):
     def test_is_not(self):
         self.run_test("def is_not(a,b):\n from operator import is_not\n return is_not(a,b)", 1, 2, is_not=[int,int])
 
+    def test_abs(self):
+        self.run_test("def abs(a):\n from operator import abs\n return abs(a)", -1, abs=[int])
+
     def test___abs__(self):
         self.run_test("def __abs__(a):\n from operator import __abs__\n return __abs__(a)", -2, __abs__=[int])
 
@@ -148,4 +151,3 @@ class TestOperator(TestEnv):
 
     def test___xor__(self):
         self.run_test("def __xor__(a,b):\n from operator import __xor__\n return __xor__(a,b)", 0x02, 0x01, __xor__=[int,int])
-
