@@ -556,6 +556,10 @@ class Identifiers(NodeAnalysis):
         self.generic_visit(node)
         self.result.add(node.module)
 
+    def visit_ImportFrom(self, node):
+        self.generic_visit(node)
+        self.result.add(node.module)
+
     def visit_alias(self, node):
         if node.asname:
             self.result.add(node.asname)
