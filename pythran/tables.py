@@ -297,9 +297,9 @@ modules = {
                 "in_final": FunctionIntr(global_effects=True),
                 },
 	"operator_": {
-		"lt": ConstFunctionIntr(),
-		"le": ConstFunctionIntr(),
-		"eq": ConstFunctionIntr(),
+	        	"lt": ConstFunctionIntr(),
+	        	"le": ConstFunctionIntr(),
+        		"eq": ConstFunctionIntr(),
                 "ne": ConstFunctionIntr(),
                 "ge": ConstFunctionIntr(),
                 "gt": ConstFunctionIntr(),
@@ -354,7 +354,7 @@ modules = {
                 "__xor__": ConstFunctionIntr(),
                 "concat": ConstFunctionIntr(),
                 "__concat__": ConstFunctionIntr(),
-		"iadd": ConstFunctionIntr(),
+		        "iadd": ConstFunctionIntr(),
                 "__iadd__": ConstFunctionIntr(),
                 "iand": ConstFunctionIntr(),
                 "__iand__": ConstFunctionIntr(),
@@ -392,6 +392,7 @@ modules = {
                 "getitem": ConstFunctionIntr(),
                 "__getitem__": ConstFunctionIntr(),
                 "indexOf": ConstFunctionIntr(),
+                "itemgetter": ConstFunctionIntr(),
 		},
         "__list__": {
                 "append": MethodIntr(
