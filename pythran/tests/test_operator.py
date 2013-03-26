@@ -158,7 +158,6 @@ class TestOperator(TestEnv):
     def test_iadd_argument_modification_mutable(self):
         self.run_test("def iadd3(b):\n a = []\n from operator import iadd\n iadd(a,b)\n return a", [3], iadd3=[[int]])
 
-
 #
 #    def test___iadd__(self):
 #        self.run_test("def __iadd__(a,b):\n from operator import __iadd__\n return __iadd__(a,b)", 1, -4, __iadd__=[int,int])
